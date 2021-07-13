@@ -16,7 +16,7 @@ public class UserDAO {
                 +"   PRIMARY KEY (`id`))";
         connection = getConnection();
         Statement stmt = connection.createStatement();
-        stmt.execute(SQLCreate;
+        stmt.execute(SQLCreate);
 
     }
     /**
@@ -97,8 +97,23 @@ try{
 }
         return result;
     }
+/**
+ * method add topic
+ * */
+public void addtopics(int ID,  String topics) throws Exception {
+    String sqlQuerry = "INSERT INTO topics (ID, topics) VALUES (NULL, ?)";
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    Connection myConn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/topic", "root", "");
+    ;
+    PreparedStatement myStmt = null;
+
+    myStmt = myConn.prepareStatement(sqlQuerry);
+
+    myStmt.setString(1,topics);
 
 
+}
     /**
      * topic list
     * */
@@ -116,8 +131,6 @@ try{
 
             User user = new User();
 
-
-           User.setID(rs.getInt("id"));
            user.addNewTopic("topic");
 
        getTopic.add(User);

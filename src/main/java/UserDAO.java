@@ -121,7 +121,7 @@ try{
 /**
  * method add topic
  * */
-public void addtopics(int ID, int user_id,  String topics) throws Exception {
+public void addtopics(int topic_id, int user_id,  String topics) throws Exception {
     String sqlQuerry = "INSERT INTO topics (user_id, topics) VALUES (NULL, ?,?)";
     Class.forName("com.mysql.cj.jdbc.Driver");
     Connection myConn = DriverManager.getConnection(

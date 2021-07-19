@@ -8,13 +8,34 @@ public class UserDAO {
   /**
    * creat table in SQL
   * */
-    private void createTable ()throws SQLException{
+    private void createTableUser ()throws SQLException{
         String SQLCreate="CREATE TABLE IF NOT EXISIS USER"
-                +"(ID    int(11)     NOT NULL AUTO_INCREMENT,"
+                +"(user_id    int(11)     NOT NULL AUTO_INCREMENT,"
                 +"name text NOT NULL,"
                 +"password text NOT NULL,"
-                +"   PRIMARY KEY (`id`))";
-        connection = getConnection();
+                +"city text NOT NULL,"
+                +"   PRIMARY KEY (`user_id`))";
+
+        Statement stmt = connection.createStatement();
+        stmt.execute(SQLCreate);
+
+    }
+
+    public UserDAO() {
+        try {
+            connection = getConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void createTableTopic ()throws SQLException{
+        String SQLCreate="CREATE TABLE IF NOT EXISIS TOPIC"
+                +"(topic_id    int(11)     NOT NULL AUTO_INCREMENT,"
+                +"user_id int(11) NOT NULL,"
+                +"topic text NOT NULL,"
+                +"   PRIMARY KEY (`topic_id`))";
+
         Statement stmt = connection.createStatement();
         stmt.execute(SQLCreate);
 
@@ -100,8 +121,8 @@ try{
 /**
  * method add topic
  * */
-public void addtopics(int ID,  String topics) throws Exception {
-    String sqlQuerry = "INSERT INTO topics (ID, topics) VALUES (NULL, ?)";
+public void addtopics(int ID, int user_id,  String topics) throws Exception {
+    String sqlQuerry = "INSERT INTO topics (user_id, topics) VALUES (NULL, ?,?)";
     Class.forName("com.mysql.cj.jdbc.Driver");
     Connection myConn = DriverManager.getConnection(
             "jdbc:mysql://localhost:3306/topic", "root", "");
@@ -110,41 +131,15 @@ public void addtopics(int ID,  String topics) throws Exception {
 
     myStmt = myConn.prepareStatement(sqlQuerry);
 
-    myStmt.setString(1,topics);
+    myStmt.setInt(1,user_id);
+    myStmt.setString(2,topics);
 
 
 }
-    /**
-     * topic list
-    * */
-    public ArrayList<String> getTopic() throws Exception{
-        ArrayList<String> getTopic = new ArrayList<>();
-
-        String sqlQuerry = "SELECT * FROM Topic";
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/topic", "root", "");
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(sqlQuerry);
-        while (rs.next()) {
-
-            User user = new User();
-
-           user.addNewTopic("topic");
-
-       getTopic.add(User);
-        }
-        con.close();
-
-        return getTopic;
-
-    }
-
 
 
     private Connection getConnection()throws SQLException{
-        Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/weatherWeb", "root", "");
+        Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/weatherweb", "root", "");
         return conn;
     }
 }

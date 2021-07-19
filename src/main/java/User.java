@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 
 public class User {
+    public int a;
     private String name;
     private int ID;
     private String password;
     ArrayList<String> topic = new ArrayList<>();
+    public UserDAO userDAO = new UserDAO();
 public  void addNewTopic(String a){
 
    topic.add(a);
@@ -16,6 +18,8 @@ public  void addNewTopic(String a){
         this.name = name;
         this.ID = ID;
         this.password = password;
+
+        userDAO.adduser(name,password);
     }
 
     @Override

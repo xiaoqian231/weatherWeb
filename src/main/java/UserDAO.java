@@ -118,26 +118,59 @@ try{
 }
         return result;
     }
+
 /**
  * method add topic
+ *  @param user_id
+ *  @param topics
  * */
-public void addtopics(int topic_id, int user_id,  String topics) throws Exception {
-    String sqlQuerry = "INSERT INTO topics (user_id, topics) VALUES (NULL, ?,?)";
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    Connection myConn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/topic", "root", "");
-    ;
-    PreparedStatement myStmt = null;
+public boolean addtopics(int topic_id, int user_id,  String topics) throws Exception {
+    boolean result2=false ;
+    try {
+        String sqlQuerry = "INSERT INTO topics (user_id, topics) VALUES (NULL, ?,?)";
+        connection = getConnection();
+        preparedStatement = connection.prepareStatement(sqlQuerry);
+        preparedStatement.setString(1, topics);
+        resultSet = preparedStatement.executeQuery();
 
-    myStmt = myConn.prepareStatement(sqlQuerry);
+        if (!resultSet.next()) {
+            String query2 = "INSERT INTO topics (user_id, topics) VALUES (NULL, ?,?)";
+            preparedStatement = connection.prepareStatement(query2);
 
-    myStmt.setInt(1,user_id);
-    myStmt.setString(2,topics);
+            preparedStatement.setInt(1, user_id);
+            preparedStatement.setString(2, topics);
 
-
+            preparedStatement.executeUpdate();
+            result2 = true;
+            System.out.println("topics has been added");
+        } else {
+            System.out.println("topic already exists");
+        }
+    }catch (SQLException throwables) {
+        throwables.printStackTrace();
+    } finally {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+        return result2;
 }
 
 
+
+
+    /**
+     * method for get connection
+     * @return connection
+     * @throws SQLException
+     * */
     private Connection getConnection()throws SQLException{
         Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/weatherweb", "root", "");
         return conn;

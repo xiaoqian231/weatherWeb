@@ -118,8 +118,8 @@ String icon="";
 
         list.add(getWeatherDataByIndex(0));
         list.add(getWeatherDataByIndex(8));
-        list.add((getWeatherDataByIndex(16));
-        list.add((getWeatherDataByIndex(24));
+        list.add(getWeatherDataByIndex(16));
+        list.add(getWeatherDataByIndex(24));
 
         return list;
     }
